@@ -1,10 +1,10 @@
-Category trees revisited
-========================
+Category Trees
+==============
 
 Introduction
 ------------
 
-Category trees are an important classification utility for e-commerce sites. It is allows similar products to be grouped in a single category and related categories to be grouped together, e.g.
+Category trees are an important classification utility for e-commerce sites. It allows similar products to be grouped in a single category and related categories to be grouped together, e.g.
 
 ```
 Games + Platform + Xbox
@@ -25,13 +25,13 @@ Representing the tree in an RDBMS
 
 The typical representation of a category tree is a `category` table where each entry has a unique `id` and a `parent_id` pointing to the category directly above it in the tree. If the `parent_id` is `NULL` the category is considered a top-level category.
 
-This definition is sound and changing the `parent_id` of a category effectively means unlinking an relinking a subtree.
+This definition is sound and changing the `parent_id` of a category effectively means unlinking and relinking a subtree.
 
 For the purposes of this document I will be adding a `department` table and modifying the typical representation slighty:
 * A top-level category _must_ have a `parent_id` that is `NULL` and it _must_ have an associated `department_id`.
 * A category that is not at the top level _must_ have a `parent_id` and it _must_ have a `department_id` that is `NULL`.
 
-Why the condition that a category with a `parent_id` may not have a `department_id`? Well, the department is implied by the ancestor. Duplicating it at lower levels complicates moving categories around and can lead to inconsistencies. (I've seen this in TAL.)
+Why the condition that a category with a `parent_id` may not have a `department_id`? Well, the department is implied by the ancestor. Duplicating it at lower levels complicates moving categories around and can lead to inconsistencies.
 
 Let's write some code:
 ```sql
@@ -83,7 +83,7 @@ The `name` of a category was crafted to represent the position in the tree for t
 
 Leaf categories
 ---------------
-Leaf categories are the categories at the bottom of the category tree. From the way we defined a category in the RDMS, it is not easy to construct a query to answer "give me all categories without children". It is simple, however, to say "give me all categories that are not parents". We create a view for this:
+Leaf categories are the categories at the bottom of the category tree. From the way we defined a category in the RDBMS, it is not easy to construct a query to answer "give me all categories without children". It is simple, however, to say "give me all categories that are not parents". We create a view for this:
 
 ```sql
 --
@@ -120,7 +120,7 @@ To build a category tree for category `id`, a naive implemetation would
 
 Step 3 is repeated until no more results are returned. If this is done at the application level, it can lead to a large amount of calls to the database, which is not efficient.
 
-Postresql extends the SQL standard definition for Common Table Expressions (CTEs), also known as "WITH clauses", to support recursive query definitions. It enables a query to refer to its own output when using the `RECURSIVE` keyword.
+Postresql supports recursive query definitions when using CTEs (Common Table Expressions), more commonly known as `WITH`-clauses. It enables a query to refer to its own output when using the `RECURSIVE` keyword.
 
 Here is an example which will return the category tree associated with category `4`:
 ```sql
@@ -174,7 +174,7 @@ SELECT *
 (3 rows)
 ```
 
-Note that I now return the `depth` in the result as well. The specified category (`4` in this case) is at level `0`. What is also interesting is that the results are return in _breadth-first traversal order_.
+Note that I now return the `depth` in the result as well. The specified category (`4` in this case) is at level `0`. What is also interesting is that the results are returned in _breadth-first traversal order_.
 
 Further down this post I will show how the results of these queries (which are lists) can be used to construct tree structures in your Python code.
 
@@ -249,7 +249,7 @@ SELECT *, COUNT(*) OVER () - distance AS depth
 (5 rows)
 ```
 
-As can be seen from the results, the first row return is the category specified, then its parent, then granparent and so on until the top-level category gets reached.
+As can be seen from the results, the first row returned is the category specified, then its parent, then grandparent and so on until the top-level category gets reached.
 
 > Note: the `COUNT(*) OVER ()` is a `WINDOW` function, which computes an aggregate over a part of the resultset (in this case everything) without the need for an explicit `GROUP BY` clause.
 
@@ -308,7 +308,7 @@ SELECT *, rel_depth - MIN(rel_depth) OVER () as depth
 
 Wrapping things up (in functions)
 ---------------------------------
-No, this is not quite the end. The queries we have seen in this document is quite big. For reasons of simplicity and performance, one may consider wrapping them in functions in the database:
+No, this is not quite the end. The queries we have seen in this document are quite big. For reasons of simplicity and performance, one may consider wrapping them in functions in the database:
 
 ```sql
 --
@@ -362,7 +362,7 @@ From list to tree
 
 Defining the position of a category in a tree purely based on its parent is sound. When viewing a category from an application's perspective, however, it is convenient to have its children directly accessible.
 
-As mentioned earlier in the document, the results of the category tree is request is returned in _breadth-first_ traversal order. This means that the fist row returned will be the top of the tree and subsequent rows will be children or grandchildren.
+As mentioned earlier in the document, the result of the category tree request is returned in _breadth-first_ traversal order. This means that the fist row returned will be the top of the tree and subsequent rows will be children or grandchildren.
 
 Below is a function implemented in Python which will construct a tree. We construct a `dictionary` containing the categories returned and use this to update the `children` attribute associated with the `parent_id` for each category we process (except the first one, which is the head of the tree and has no parent).
 
@@ -403,7 +403,7 @@ The code for a `department_tree` would be similar, with the exception that it wo
 
 Conclusion
 ----------
-I hope you enjoyed reading this. If you are curious and want more information, please chat to me. Or read the [documentation](http://www.postgresql.org/docs/9.4/static/queries-with.html)
+I hope you enjoyed reading this. If you have any suggestions or comments, feel free to send me an email.
 
 Addendum
 --------
