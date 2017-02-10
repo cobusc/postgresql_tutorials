@@ -19,4 +19,5 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * PostgreSQL Exercises: https://pgexercises.com/
 * pgcli (CLI for PostgreSQL with auto-completion and syntax highlighting): http://pgcli.com/
 * PostgreSQL vs MS SQL: http://www.pg-versus-ms.com/
+* WITH-clause performance considerations: http://modern-sql.com/feature/with/performance
 
