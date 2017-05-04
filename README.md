@@ -25,6 +25,6 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 
 ### pgadmin4 quickstart
 ```bash
-./venv/bin/pip install https://ftp.postgresql.org/pub/pgadmin3/pgadmin4/v1.1/pip/pgadmin4-1.1-py2-none-any.whl
+./venv/bin/pip install https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v1.4/pip/pgadmin4-1.4-py2.py3-none-any.whl
 ./venv/bin/python ./venv/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py
 ```
