@@ -20,6 +20,7 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * pgcli (CLI for PostgreSQL with auto-completion and syntax highlighting): http://pgcli.com/
 * PostgreSQL vs MS SQL: http://www.pg-versus-ms.com/
 * WITH-clause performance considerations: http://modern-sql.com/feature/with/performance
+* Ways to paginate: https://www.citusdata.com/blog/2016/03/30/five-ways-to-paginate/
 
 ## Tips
 
