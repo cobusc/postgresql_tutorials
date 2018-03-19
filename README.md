@@ -22,11 +22,13 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * WITH-clause performance considerations: http://modern-sql.com/feature/with/performance
 * Ways to paginate: https://www.citusdata.com/blog/2016/03/30/five-ways-to-paginate/
 * Modern SQL Window Function Questions: http://www.windowfunctions.com/
+* Temporal Tables (SQL `AS OF`): http://clarkdave.net/2015/02/historical-records-with-postgresql-and-temporal-tables-and-sql-2011/
 
 ## Tips
 
 ### pgadmin4 quickstart
 ```bash
-./venv/bin/pip install https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v1.6/pip/pgadmin4-1.6-py2.py3-none-any.whl
-./venv/bin/python ./venv/lib/python2.7/site-packages/pgadmin4/pgAdmin4.py
+virtualenv venv --python=python3.6
+./venv/bin/pip install https://ftp.postgresql.org/pub/pgadmin/pgadmin4/v2.1/pip/pgadmin4-2.1-py2.py3-none-any.whl
+./venv/bin/python ./venv/lib/python3.6/site-packages/pgadmin4/pgAdmin4.py
 ```
