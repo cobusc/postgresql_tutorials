@@ -23,6 +23,7 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * Ways to paginate: https://www.citusdata.com/blog/2016/03/30/five-ways-to-paginate/
 * Modern SQL Window Function Questions: http://www.windowfunctions.com/
 * Temporal Tables (SQL `AS OF`): http://clarkdave.net/2015/02/historical-records-with-postgresql-and-temporal-tables-and-sql-2011/
+* Histograms: https://tapoueh.org/blog/2014/02/postgresql-aggregates-and-histograms/
 
 ## Tips
 
