@@ -8,6 +8,7 @@ A proof of concept category tree implementation showcasing amongst other things:
 * Use of RECURSIVE in CTEs
 * WINDOW functions
 * Stored procedures
+* MATERIALIZED VIEWs
 
 ## Momoko
 

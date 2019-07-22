@@ -3,7 +3,7 @@ import pprint
 
 CONN = psycopg2.connect(host="ec2-23-21-166-16.compute-1.amazonaws.com",
                         database="d64t2ttilgljcl", user="bmvujhiwgqaotb",
-                        password="plcaholder", sslmode="require")
+                        password="placeholder", sslmode="require")
 cur = CONN.cursor()
 assert CONN, "Not connected"
 

@@ -114,35 +114,6 @@ END;
 $$ LANGUAGE plpgsql;
 
 --
--- Example Python code to construct tree from results
---
--- def category_tree(id):
---   _tree = None
---   _category_by_id = {}
---
---   def make_cat(row):
---       return {
---           "id": row.id,
---           "parent_id": row.parent_id,
---           "department_id": row.department_id,
---           "name": row.name,
---           "slug": row.slug
---           "children": []
---       }
---
---   for row in results:
---     cat = make_cat(row)
---     _category_by_id[row.id] = cat
---
---     if _tree:
---         _category_by_id[row.parent_id].children.add(cat)
---     else:
---         _tree = cat
---
---   return _tree
---
-
---
 -- Department tree
 --
 
@@ -234,27 +205,35 @@ SELECT *
 SELECT *
   FROM _lineage;
 
--- mysql> desc cats;
--- --------------
--- desc cats
--- --------------
---
--- +------------------------+---------------------------------------------------+------+-----+---------+----------------+
--- | Field                  | Type                                              | Null | Key | Default | Extra          |
--- +------------------------+---------------------------------------------------+------+-----+---------+----------------+
--- | idCat                  | smallint(6)                                       | NO   | PRI | NULL    | auto_increment |
--- | idType                 | tinyint(4)                                        | NO   | MUL | 0       |                |
--- | CatName                | varchar(50)                                       | YES  | MUL | NULL    |                |
--- | CatLevel               | tinyint(4)                                        | YES  |     | NULL    |                |
--- | idParent               | smallint(6)                                       | YES  |     | NULL    |                |
--- | ProductCount           | int(11)                                           | YES  |     | NULL    |                |
--- | InactiveProductCount   | int(11)                                           | YES  |     | NULL    |                |
--- | slug                   | varchar(255)                                      | YES  |     | NULL    |                |
--- | SeoCatName             | varchar(255)                                      | YES  |     | NULL    |                |
--- | ProductSize            | enum('Light','Medium','Heavy','Very Heavy')       | YES  | MUL | NULL    |                |
--- | IsPubliclyHidden       | tinyint(1)                                        | NO   |     | 0       |                |
--- | MarketPlaceEligibility | enum('Available','Not Available','Default')       | YES  |     | NULL    |                |
--- | InvitedSellers         | enum('Dummy value to key on. Should not be set.') | YES  |     | NULL    |                |
--- +------------------------+---------------------------------------------------+------+-----+---------+----------------+
--- 13 rows in set (0.00 sec)
+
+-- A materialized view containing each category, its lineage and depth.
+-- All fields are indexed for fast lookups.
+-- Add awesome abilities: https://www.postgresql.org/docs/current/intarray.html
+CREATE EXTENSION intarray;
+
+CREATE MATERIALIZED VIEW category_lineage AS
+    WITH RECURSIVE _lineage AS (
+        SELECT id, ARRAY[id]::int[] AS lineage
+          FROM category
+         WHERE parent_id IS NULL
+         UNION ALL
+        SELECT category.id, array_prepend(category.id, _lineage.lineage)
+          FROM category, _lineage
+         WHERE category.parent_id = _lineage.id
+    )
+    SELECT id, lineage, array_length(lineage, 1) - 1 AS depth
+      FROM _lineage;
+
+CREATE UNIQUE INDEX category_lineage_pk ON category_lineage(id);
+CREATE INDEX category_lineage_depth_index ON category_lineage(depth);
+-- This enables us to quickly do queries like "return all categories which are ancestors of category N".
+CREATE INDEX category_lineage_index ON category_lineage USING GIN(lineage gin__int_ops);
+
+-- After new categories are added, or parent_ids changed, refresh the view using the following command:
+REFRESH MATERIALIZED VIEW CONCURRENTLY category_lineage;
+
+-- Find all categories with category 0 in its lineage
+SELECT * 
+  FROM category_lineage 
+ WHERE lineage @> '{0}';
 
