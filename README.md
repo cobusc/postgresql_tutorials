@@ -25,6 +25,8 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * Modern SQL Window Function Questions: http://www.windowfunctions.com/
 * Temporal Tables (SQL `AS OF`): http://clarkdave.net/2015/02/historical-records-with-postgresql-and-temporal-tables-and-sql-2011/
 * Histograms: https://tapoueh.org/blog/2014/02/postgresql-aggregates-and-histograms/
+* Low level PostgreSQL info: https://erthalion.info/2019/12/06/postgresql-stay-curious/
+* Odyssey - Advanced multi-threaded PostgreSQL connection pooler and request router: https://github.com/yandex/odyssey
 
 ## Tips
 
