@@ -28,6 +28,7 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * Low level PostgreSQL info: https://erthalion.info/2019/12/06/postgresql-stay-curious/
 * Odyssey - Advanced multi-threaded PostgreSQL connection pooler and request router: https://github.com/yandex/odyssey
 * pgwatch2 - Metrics collector and dashboard for PostgreSQL: https://github.com/cybertec-postgresql/pgwatch2 https://demo.pgwatch.com/
+* Excellent documentation regarding PostgrSQL indexes: https://habr.com/en/company/postgrespro/blog/441962/
 
 ## Tips
 
