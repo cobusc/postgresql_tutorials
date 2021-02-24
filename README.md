@@ -30,7 +30,8 @@ Asynchronous all the way with Tornado and Momoko, a library exposing Psycopg2's 
 * pgwatch2 - Metrics collector and dashboard for PostgreSQL: https://github.com/cybertec-postgresql/pgwatch2 https://demo.pgwatch.com/
 * Excellent documentation regarding PostgrSQL indexes: https://habr.com/en/company/postgrespro/blog/441962/
 * Automated failover: https://github.com/citusdata/pg_auto_failover
-# Distributed PostgreSQL: https://www.citusdata.com/
+* Distributed PostgreSQL: https://www.citusdata.com/
+* Regression testing: https://github.com/dimitri/regresql
 
 
 ## Tips
