@@ -1,3 +1,7 @@
+[![Coverage](https://sonarqube.stagealot.com/api/project_badges/measure?project=review-service&metric=coverage)](https://sonarqube.stagealot.com/dashboard?id=review-service)
+
+<img src="https://sonarqube.stagealot.com/api/project_badges/measure?project=review-service&metric=coverage">
+          
 # PostgreSQL Tutorials
 
 ## Category Trees
